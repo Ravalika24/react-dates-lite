@@ -1,6 +1,7 @@
 /* @flow */
 import * as React from 'react';
 import styled from 'styled-components';
+import styles from './styles.css';
 
 type ButtonProps = {
   isPast: boolean,
@@ -17,23 +18,8 @@ type Props = ButtonProps & {
   value: Date,
   number: number,
   selectDate: Date => void,
-  onHover: Date => void,
-  classes: {| [string]: string |}
+  onHover: Date => void
 };
-
-// export const getClasses = (props: Props) => {
-//   if (props.isPast || props.isFuture || props.isDisabled) {
-//     return props.classes.disabled;
-//   }
-//   if (props.isHovered) {
-//     return props.classes.selected;
-//   }
-//   if (props.isSelected) {
-//     return props.classes.selected;
-//   }
-
-//   return props.classes.date;
-// };
 
 export const buttonColor = (props: ButtonProps) => {
   if (props.className) {
@@ -149,9 +135,9 @@ export default class CalendarDay extends React.PureComponent<Props> {
     } = this.props;
 
     return (
-      <Td isHidden={isHidden} colors={colors}>
+      <Td isHidden={isHidden} colors={colors} className={styles.calendarDay}>
         <Button
-          // className={getClasses(this.props)}
+          className={styles.calendarDayButton}
           onClick={this.handleClick}
           onMouseOver={this.handleHover}
           onFocus={this.handleHover}

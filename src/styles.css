@@ -1,0 +1,110 @@
+.rdt-arrow-left {
+  position: absolute;
+  top: 5px;
+  left: 12.5px;
+  fill: #82888a;
+  width: 18px;
+}
+
+.rdt-arrow-right {
+  position: absolute;
+  top: 5px;
+  right: 12.5px;
+  fill: #82888a;
+  width: 18px;
+}
+
+.calendarWrapper {
+  position: relative;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.calendarMonthWrapper {
+  display: flex;
+}
+
+.navBtn {
+  border: 1px solid #e4e7e7;
+  position: absolute;
+  background: white;
+  border-radius: 2px;
+  width: 43px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.navBtn:hover {
+  background: #e4e7e7;
+}
+.navBtn:focus {
+  outline: none;
+}
+.navBtn:disabled {
+  cursor: not-allowed;
+}
+.navBtn:disabled:hover {
+  background: initial;
+}
+.navBtnLeft {
+  left: 0;
+}
+.navBtnRight {
+  right: 0;
+}
+
+.arrow {
+  position: absolute;
+  top: 5px;
+  right: 12.5px;
+  fill: #82888a;
+  width: 18px;
+}
+
+.arrowRight {
+  right: 12.5px;
+}
+.arrowLeft {
+  left: 12.5px;
+}
+
+.calendarMonth {
+  margin-right: 10px;
+}
+calendarMonth:last-child {
+  margin-right: 0;
+}
+
+.week {
+  display: table-row;
+}
+
+.month {
+  width: 300px;
+  display: table;
+  border-collapse: collapse;
+}
+
+.dayNameList {
+  display: flex;
+  align-items: center;
+  margin: 40px 0 10px;
+}
+
+.dayName {
+  width: 43px;
+  text-align: center;
+}
+
+.monthName {
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendarDay {
+}
+
+.calendarDayButton {
+}

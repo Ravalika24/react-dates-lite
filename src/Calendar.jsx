@@ -1,8 +1,7 @@
 /* @flow */
 import * as React from 'react';
 import * as R from 'ramda';
-import styled from 'styled-components';
-
+import cx from 'classnames';
 import eachDayOfInterval from 'date-fns/eachDayOfInterval';
 import isSameDay from 'date-fns/isSameDay';
 import isBefore from 'date-fns/isBefore';
@@ -13,6 +12,8 @@ import ArrowRight from './ArrowRight';
 
 import * as utils from './utils';
 
+import styles from './styles.css';
+
 const defaultColors = {
   selected: 'rgb(244, 114, 49)',
   selectedHover: 'rgb(255, 141, 74)',
@@ -22,76 +23,12 @@ const defaultColors = {
   disabled: 'gray'
 };
 
-const StyledArrowLeft = styled(ArrowLeft)`
-  position: absolute;
-  top: 5px;
-  left: 12.5px;
-  fill: #82888a;
-  width: 18px;
-`;
-
-const StyledArrowRight = styled(ArrowRight)`
-  position: absolute;
-  top: 5px;
-  right: 12.5px;
-  fill: #82888a;
-  width: 18px;
-`;
-
-export const getWidth = (number: number): string => {
+export const getWidth = (number: number): number => {
   if (number === 1) {
-    return `301px`;
+    return 301;
   }
-  return `${number * 301}px`; // 311 - 10 = 301 : 10 = margin
+  return number * 301; // 311 - 10 = 301 : 10 = margin
 };
-
-const CalendarWrapper = styled.div`
-  position: relative;
-  margin: 0 auto;
-  text-align: center;
-  max-width: ${props => getWidth(props.visibleMonths)};
-`;
-
-const CalendarMonthWrapper = styled.div`
-  display: flex;
-`;
-
-const NavBtn = styled.button`
-  border: 1px solid ${props => props.colors.border};
-  position: absolute;
-  background: ${props => props.colors.background};
-  border-radius: 2px;
-  width: 43px;
-  height: 30px;
-  cursor: pointer;
-  :hover {
-    background: ${props => props.colors.border};
-  }
-  &:focus {
-    outline: none;
-  }
-  :disabled {
-    cursor: not-allowed;
-    :hover {
-      background: initial;
-    }
-  }
-`;
-
-const StyledMonth = styled(CalendarMonth)`
-  margin-right: 10px;
-  &:last-child {
-    margin-right: 0;
-  }
-`;
-
-const PrevBtn = NavBtn.extend`
-  left: 0;
-`;
-
-const NextBtn = NavBtn.extend`
-  right: 0;
-`;
 
 type Props = {|
   selectDates: (Date[]) => any,
@@ -317,32 +254,35 @@ export default class Calendar extends React.PureComponent<Props, State> {
     const months = utils.getMonths(firstMonth, lastMonth);
 
     return (
-      <CalendarWrapper className={className} visibleMonths={visibleMonths}>
-        <PrevBtn
+      <div
+        className={cx(styles.calendarWrapper, className)}
+        style={{ maxWidth: getWidth(visibleMonths) }}>
+        <button
           data-test="rdl-prev-button"
-          className={classes.button}
+          className={cx(styles.navBtn, styles.navBtnLeft, classes.button)}
           onClick={this.handlePrev}
           disabled={currentMonth === 0 || months.length <= visibleMonths}
           colors={mergedColors}>
-          <StyledArrowLeft />
-        </PrevBtn>
+          <ArrowLeft className={cx(styles.arrow, styles.arrowLeft)} />
+        </button>
 
-        <NextBtn
+        <button
           data-test="rdl-next-button"
-          className={classes.button}
+          className={cx(styles.navBtn, styles.navBtnRight, classes.button)}
           onClick={this.handleNext}
           disabled={
             currentMonth === R.subtract(R.length(months), visibleMonths) ||
             months.length <= visibleMonths
           }
           colors={mergedColors}>
-          <StyledArrowRight />
-        </NextBtn>
-
-        <CalendarMonthWrapper className={classes.calendarWrapper}>
+          <ArrowRight className={cx(styles.arrow, styles.arrowRight)} />
+        </button>
+        <div
+          className={cx(styles.calendarMonthWrapper, classes.calendarWrapper)}>
           {R.map(
             month => (
-              <StyledMonth
+              <CalendarMonth
+                className={styles.calendarMonth}
                 key={month}
                 month={month}
                 selectedDates={selectedDates}
@@ -360,8 +300,8 @@ export default class Calendar extends React.PureComponent<Props, State> {
             ),
             utils.calendarMonthsToRender(visibleMonths, currentMonth, months)
           )}
-        </CalendarMonthWrapper>
-      </CalendarWrapper>
+        </div>
+      </div>
     );
   }
 }

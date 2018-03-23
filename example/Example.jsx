@@ -1,7 +1,6 @@
 /* @flow */
 import * as React from 'react';
 import * as R from 'ramda';
-import styled from 'styled-components';
 import eachDayOfInterval from 'date-fns/eachDayOfInterval';
 import subMonths from 'date-fns/subMonths';
 import startOfMonth from 'date-fns/startOfMonth';
@@ -12,10 +11,6 @@ import startOfDay from 'date-fns/startOfDay';
 import addMonths from 'date-fns/addMonths';
 
 import Calendar from '../src';
-
-const Column = styled.div`
-  display: flex;
-`;
 
 type Props = {|
   allowedDates: boolean
@@ -79,7 +74,7 @@ export default class Example extends React.PureComponent<Props, State> {
           lastMonth={addMonths(new Date(), 1)}
         />
 
-        <Column>
+        <div styles={{ display: 'flex' }}>
           <div>
             selected dates:
             {R.map(
@@ -98,7 +93,7 @@ export default class Example extends React.PureComponent<Props, State> {
               disabledDates
             )}
           </div>
-        </Column>
+        </div>
       </div>
     );
   }

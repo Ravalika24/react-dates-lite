@@ -1,7 +1,6 @@
 /* @flow */
 import * as React from 'react';
 import * as R from 'ramda';
-import styled from 'styled-components';
 
 import format from 'date-fns/format';
 import getDate from 'date-fns/getDate';
@@ -11,6 +10,8 @@ import CalendarDay from './CalendarDay';
 
 import * as utils from './utils';
 import * as dayHelpers from './utils/dayHelpers';
+
+import styles from './styles.css';
 
 type Props = {|
   selectDate: Date => void,
@@ -27,34 +28,6 @@ type Props = {|
   className: string,
   isFocused: boolean
 |};
-
-const Week = styled.div`
-  display: table-row;
-`;
-
-const Month = styled.div`
-  width: 300px;
-  display: table;
-  border-collapse: collapse;
-`;
-
-const DayNameList = styled.div`
-  display: flex;
-  align-items: center;
-  margin: 40px 0 10px;
-`;
-
-const DayName = styled.span`
-  width: 43px;
-  text-align: center;
-`;
-
-const MonthName = styled.span`
-  height: 30px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 const CalendarMonth = ({
   month,
@@ -74,19 +47,23 @@ const CalendarMonth = ({
   const toRender = utils.calendarDaysToRender(month);
   return (
     <div className={`${classes.month && classes.month} ${className}`}>
-      <MonthName>{format(month, 'MMMM YYYY')}</MonthName>
+      <span className={styles.monthName}>{format(month, 'MMMM YYYY')}</span>
 
-      <DayNameList>
+      <div className={styles.dayNameList}>
         {R.map(
-          day => <DayName key={day}>{format(day, 'dd')}</DayName>,
+          day => (
+            <span key={day} className={styles.dayName}>
+              {format(day, 'dd')}
+            </span>
+          ),
           utils.calendarDayNames(toRender)
         )}
-      </DayNameList>
+      </div>
 
-      <Month>
+      <div className={styles.month}>
         {R.map(
           week => (
-            <Week key={week}>
+            <div key={week} className={styles.week}>
               {R.map(
                 day => (
                   <CalendarDay
@@ -112,11 +89,11 @@ const CalendarMonth = ({
                 ),
                 week
               )}
-            </Week>
+            </div>
           ),
           R.splitEvery(7, toRender)
         )}
-      </Month>
+      </div>
     </div>
   );
 };
